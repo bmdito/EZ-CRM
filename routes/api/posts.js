@@ -147,13 +147,6 @@ router.put(
         return res.status(404).json({ msg: "Post not found" });
       }
 
-      //make sure user deleting post owns the post
-      //req.user.id is the logged in user
-      // to string because post.user is a number
-      //   if (post.user.toString() !== req.user.id) {
-      //     return res.status(401).json({ msg: "User not authorized" });
-      //   }
-
       if (post) {
         // console.log(req.body + "YEET");
         // selector = { _id: req.params.id };
