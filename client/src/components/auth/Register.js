@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 //we will use redux instead of axios
 // import axios from "axios";
 
@@ -106,7 +107,7 @@ export const Register = () => {
         <input type="submit" className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </Fragment>
   );
