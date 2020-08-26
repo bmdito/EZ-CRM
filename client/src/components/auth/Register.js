@@ -1,9 +1,22 @@
 import React, { Fragment, useState } from "react";
+
+//we can use connect from react-redux package to connect our alerts to this component:
+import { connect } from "react-redux";
+// we use connect at the bottom when exporting the component SEE BELOW!
+
+import { setAlert } from "../../actions/alert";
+//whenever you bring in an alert from actions and want to use it you need to pass it into the connect method at bottom of page
+
+//any time we use props we need to import proptypes
+// we add register proptypes to very bottom above export
+import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
+
 //we will use redux instead of axios
 // import axios from "axios";
 
-export const Register = () => {
+export const Register = (props) => {
   //in hooks first value is the current state second is function to reset it
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +36,9 @@ export const Register = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      console.log("passwords do not match");
+      //will will pass the following message and alert type to our actions then dispatch the alert with the randomly created id from uuid
+      // alert type "danger" is for styling
+      props.setAlert("passwords do not match", "danger");
     } else {
       // console.log(formData);
       console.log("success");
@@ -113,4 +128,10 @@ export const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+// we use react-redux's "connect" method for anytime we want to connect a component to our redux alerts
+export default connect(null, { setAlert })(Register);
+//connect takes in two things, first any state we want to map, second is object with any actions we want to use. this allows us to access props.setAlert
