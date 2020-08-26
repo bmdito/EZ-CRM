@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 //whenever you bring in an alert from actions and want to use it you need to pass it into the connect method at bottom of page
 
+import { register } from "../../actions/auth";
+
 //any time we use props we need to import proptypes
 // we add register proptypes to very bottom above export
 import PropTypes from "prop-types";
@@ -42,6 +44,7 @@ export const Register = (props) => {
     } else {
       // console.log(formData);
       console.log("success");
+      props.register({ name, email, password });
       // below is how you would register the user without redux
       // const newUser = {
       //   name,
@@ -80,7 +83,7 @@ export const Register = (props) => {
             name="name"
             value={name}
             onChange={(e) => onChange(e)}
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -90,7 +93,7 @@ export const Register = (props) => {
             name="email"
             value={email}
             onChange={(e) => onChange(e)}
-            required
+            // required
           />
           <small className="form-text">
             This site uses Gravatar so if you want a profile image, use a
@@ -104,8 +107,8 @@ export const Register = (props) => {
             name="password"
             value={password}
             onChange={(e) => onChange(e)}
-            minLength="6"
-            required
+            // minLength="6"
+            // required
           />
         </div>
         <div className="form-group">
@@ -115,8 +118,8 @@ export const Register = (props) => {
             name="password2"
             value={password2}
             onChange={(e) => onChange(e)}
-            minLength="6"
-            required
+            // minLength="6"
+            // required
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />
@@ -130,8 +133,9 @@ export const Register = (props) => {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
 // we use react-redux's "connect" method for anytime we want to connect a component to our redux alerts
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);
 //connect takes in two things, first any state we want to map, second is object with any actions we want to use. this allows us to access props.setAlert
