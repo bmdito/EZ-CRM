@@ -1,8 +1,11 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  LOGOUT,
 } from "../actions/types";
 
 //just like set alert we want an initial state
@@ -31,6 +34,29 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case REGISTER_FAIL:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+      };
+    case LOGIN_SUCCESS:
+      localStorage.setItem("token", payload.token);
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+      };
+    case LOGIN_FAIL:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+      };
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,

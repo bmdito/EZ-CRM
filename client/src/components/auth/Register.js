@@ -13,12 +13,12 @@ import { register } from "../../actions/auth";
 // we add register proptypes to very bottom above export
 import PropTypes from "prop-types";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 //we will use redux instead of axios
 // import axios from "axios";
 
-export const Register = (props) => {
+export const Register = ({ setAlert, register, isAuthenticated }) => {
   //in hooks first value is the current state second is function to reset it
   const [formData, setFormData] = useState({
     name: "",
@@ -40,11 +40,11 @@ export const Register = (props) => {
     if (password !== password2) {
       //will will pass the following message and alert type to our actions then dispatch the alert with the randomly created id from uuid
       // alert type "danger" is for styling
-      props.setAlert("passwords do not match", "danger");
+      setAlert("passwords do not match", "danger");
     } else {
       // console.log(formData);
       console.log("success");
-      props.register({ name, email, password });
+      register({ name, email, password });
       // below is how you would register the user without redux
       // const newUser = {
       //   name,
@@ -69,6 +69,10 @@ export const Register = (props) => {
       // }
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
   return (
     <Fragment>
       <h1 className="large text-primary">Sign Up</h1>
@@ -134,8 +138,13 @@ export const Register = (props) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
 // we use react-redux's "connect" method for anytime we want to connect a component to our redux alerts
-export default connect(null, { setAlert, register })(Register);
+export default connect(mapStateToProps, { setAlert, register })(Register);
 //connect takes in two things, first any state we want to map, second is object with any actions we want to use. this allows us to access props.setAlert
